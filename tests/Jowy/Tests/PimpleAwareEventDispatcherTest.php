@@ -39,6 +39,9 @@ class PimpleAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(EventDispatcher::class, $this->app["dispatcher"]);
     }
 
+    /**
+     * test object listener
+     */
     public function testListener()
     {
         $listener = new TestListener();
@@ -49,6 +52,9 @@ class PimpleAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event->getNick(), "jowy");
     }
 
+    /**
+     * test closure listener
+     */
     public function testClosureListener()
     {
         $this->app["dispatcher"]->addListener("test.action", function (Event $event) {
@@ -64,6 +70,9 @@ class PimpleAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event->getNick(), "jowy");
     }
 
+    /**
+     * test listener in container
+     */
     public function testContainerListener()
     {
         $this->app["test.listener"] = function () {
@@ -77,6 +86,9 @@ class PimpleAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($event->getNick(), "jowy");
     }
 
+    /**
+     * test remove listener in container
+     */
     public function testContainerRemoveListener()
     {
         $this->app["test.listener"] = function () {
@@ -92,6 +104,9 @@ class PimpleAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->app["dispatcher"]->hasListeners("test.action"));
     }
 
+    /**
+     * test remove closure listener
+     */
     public function testClosureRemoveListener()
     {
         $closure = function (Event $event) {
@@ -111,6 +126,9 @@ class PimpleAwareEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->app["dispatcher"]->hasListeners("test.action"));
     }
 
+    /**
+     * test subscriber in container
+     */
     public function testContainerSubscriber()
     {
         $this->app["test.subscriber"] = function () {
